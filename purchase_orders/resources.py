@@ -1,3 +1,4 @@
+from flask import Flask
 from flask import jsonify
 from flask_restful import Resource, reqparse
 
@@ -49,4 +50,11 @@ class PurchaseOrders(Resource):
         purchase_orders.append(purchase_order)
         
         return jsonify(purchase_order)
+    
+class PurchaseOrdersById(Resource):
+    def get(self, id):
+        for po in purchase_orders:
+            if po['id'] == id:
+                return jsonify(po)
+        return jsonify({'message': 'Pedido {} não encontrado'.format(id)})    
     
