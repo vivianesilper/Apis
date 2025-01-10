@@ -36,8 +36,7 @@ class PurchaseOrders(Resource):
     
     def get(self):
         return jsonify(purchase_orders)
-    
-    def post(sef):
+    def post(self):
         request_data = PurchaseOrders().parser.parse_args()
         
         purchase_order = {
@@ -50,11 +49,10 @@ class PurchaseOrders(Resource):
         purchase_orders.append(purchase_order)
         
         return jsonify(purchase_order)
-    
 class PurchaseOrdersById(Resource):
-    def get(self, id):
+    def get_purchase_orders_by_id(self, id):
         for po in purchase_orders:
             if po['id'] == id:
                 return jsonify(po)
-        return jsonify({'message': 'Pedido {} não encontrado'.format(id)})    
+        return jsonify({'message': 'Pedido {} não encontrado'.format(id)})  
     
