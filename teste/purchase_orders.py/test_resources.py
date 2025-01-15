@@ -10,3 +10,4 @@ def test_get_purchase_orders(test_client: FlaskClient):
     assert len(response.json[0]['items']) == 1
     assert response.json[0]['items'][0]['id'] == 1
     
+def test_post_purchase_orders(test_client):
