@@ -22,4 +22,4 @@ class PurchaseOrdersItems(Resource):
             if po['id'] == id:
                 if po['id'] == id:
                     return jsonify(po['items'])
-        return jsonify({'description': 'Pedido item 1'.format(id)})        
+        return jsonify({'message': 'Pedido de id {} não encontrado'.format(id)})        
