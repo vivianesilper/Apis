@@ -23,14 +23,14 @@ class PurchaseOrdersItems(Resource):
         
         return {p.as_dict() for p in purchase_orders_items()}
     
-    def post(self, id):
+    def post(self, id):  
         purchase_order = PurchaseOrderModel.find_by_id(id)
         if purchase_order:
-           data = PurchaseOrdersItems.parser.parser_args()
-           data['purchase_order_id'] = id
+            data = PurchaseOrdersItems.parser.parser_args()
+            data['purchase_order_id'] = id
            
-           purchase_orders_item = PurchaseOrdersItems(**data)
-           purchase_orders_item.save()
+            purchase_orders_item = PurchaseOrdersItems(**data)
+            purchase_orders_item.save()
            
-           return purchase_orders_item.as_dict()
+            return purchase_orders_item.as_dict()
         return jsonify({'message': 'Purchase order {} não encontrado'.format(id)})

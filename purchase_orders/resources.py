@@ -17,10 +17,10 @@ class PurchaseOrders(Resource):
         purchase_orders = PurchaseOrderModel.find_all()
         return [p.as_dict() for p in purchase_orders]
     
-    def post(self):
+    def post(self,id):
         data = PurchaseOrders.parser.parse_args()
         
-        purchase_order = PurchaseOrderModel(**data)
+        purchase_order= PurchaseOrderModel(**data)
         purchase_order.save()
         
         purchase_order.as_dict()
