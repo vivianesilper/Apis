@@ -32,7 +32,4 @@ class  PurchaseOrdersById(Resource):
         purchase_order = PurchaseOrderModel.find_by_id(id)
         if purchase_order:
             return purchase_order.as_dict()
-        return jsonify({'message': 'Pedido de id {} não encontrado'.format(id)})
-        
-    
-        
+        return jsonify({'message': 'Purchase order {} não encontrado'.format(id)})

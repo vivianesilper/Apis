@@ -1,29 +1,10 @@
 from flask import jsonify
 from flask_restful import Resource, reqparse
-
-purchase_orders = [
-    {
-        'id': 1,
-        'description': 'Purchase Order id 1',
-        'items': [
-            {
-                'id': 1,
-                'description': 'Item do pedido 1',
-                'price': 19.99
-            }
-        ]
-    }
-]
+from .model import PurchaseOrdersItemsModel
+from purchase_orders.model import PurchaseOrderModel
 
 class PurchaseOrdersItems(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument(
-        'id',
-        type=int,
-        required=True,
-        help='Informe um id válido'
-    )
-    
+    parser = reqparse.RequestParser()   
     parser.add_argument(
         'description',
         type=str,
@@ -36,22 +17,20 @@ class PurchaseOrdersItems(Resource):
         required=True,
         help='Informe um preço válido'
     )
-    def get(self, id):  # sourcery skip: use-fstring-for-formatting
-        for po in purchase_orders:
-            if po['id'] == id:
-                return jsonify(po['items']) 
-        return jsonify({'message': 'Pedido de id {} não encontrado'.format(id)})
+    def get(self, id):
+        purchase_orders_items = PurchaseOrdersItemsModel.find_by_purchase_order_id(
+            id)
+        
+        return {p.as_dict() for p in purchase_orders_items()}
     
     def post(self, id):
-        data = PurchaseOrdersItems().parser.parse_args()
-        
-        for po in purchase_orders:
-            if po['id'] == id:
-                po['items'].append({
-                    'id': data['id'],
-                    'description': data['description'],
-                    'price': data['price']
-                })
-                
-                return jsonify(po)
+        purchase_order = PurchaseOrderModel.find_by_id(id)
+        if purchase_order:
+           data = PurchaseOrdersItems.parser.parser_args()
+           data['purchase_order_id'] = id
+           
+           purchase_orders_item = PurchaseOrdersItems(**data)
+           purchase_orders_item.save()
+           
+           return purchase_orders_item.as_dict()
         return jsonify({'message': 'Purchase order {} não encontrado'.format(id)})
