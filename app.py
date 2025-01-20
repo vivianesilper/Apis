@@ -14,9 +14,9 @@ def create_app():
     
     db.init_app(app)
     
-    #api.add_resource(PurchaseOrders, '/purchase_orders')
-    #api.add_resource(PurchaseOrdersById, '/purchase_orders/<int:id>' )
-    #api.add_resource(PurchaseOrdersItems, '/purchase_orders/<int:id>/items')
+    api.add_resource(PurchaseOrders, '/purchase_orders')
+    api.add_resource(PurchaseOrdersById, '/purchase_orders/<int:id>' )
+    api.add_resource(PurchaseOrdersItems, '/purchase_orders/<int:id>/items')
     
     @app.before_request
     def create_tables():
