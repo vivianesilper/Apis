@@ -1,6 +1,6 @@
 from db import db
 
-class PurchaseOrdersModel(db.Model):
+class PurchaseOrderModel(db.Model):
     __tablename__ = 'purchase_order'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -11,17 +11,15 @@ class PurchaseOrdersModel(db.Model):
     
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-        
+
     @classmethod
     def find_all(cls):
-        return cls.query.all() # select * from purchase_order
+        return cls.query.all()  # select * from purchase_order
     
     @classmethod
-    def find_by_id(cls, __id):
-        return cls.query.filter_by(id=__id).first():
+    def find_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).first()  # select * from purchase_order where id = _id
     
     def save(self):
         db.session.add(self)
         db.session.commit()
-        
-        
