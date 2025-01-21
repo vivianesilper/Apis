@@ -25,9 +25,8 @@ class PurchaseOrders(Resource):
         
         purchase_order.as_dict()
         
-        return jsonify(purchase_order)
-class  PurchaseOrdersById(Resource):
-    
+        return purchase_order.as_dict()
+class  PurchaseOrdersById(Resource): 
     def get(self, id):
         purchase_order = PurchaseOrderModel.find_by_id(id)
         if purchase_order:

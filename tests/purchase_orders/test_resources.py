@@ -1,6 +1,6 @@
 import json
 
-def test_get_purchase_orders(test_client):
+def test_get_purchase_orders(test_client, seed_db):
     response = test_client.get('/purchase_orders')
     
     assert response.status_code == 200
@@ -34,19 +34,19 @@ def tes_post_empty_id(test_client):
 def test_post_empty_description(test_client):
     response = test_client.post(
         '/purchase_orders',
-        data=json.dumps({'id': 2}),
+        data=json.dumps({}),
         content_type='application/json'
     )
     
     assert response.status_code == 400
     assert response.json['message']['description'] == 'Informe uma descrição válida'
     
-def test_purchase_orders_by_id(test_client):
-    response = test_client.get('/purchase_orders/1')
+def test_get_purchase_orders_by_id(test_client, seed_db):
+    response = test_client.get('/purchase_orders/{}'.seed_db.id)
     
     assert response.status_code == 200
-    assert response.json['id'] == 1
-    assert response.json['description'] == 'Purchase Order id 1'
+    assert response.json['id'] == seed_db.id
+    assert response.json['description'] == seed_db.description
     
 def test_get_purchase_orders_not_found(test_client):
     id = 9999
